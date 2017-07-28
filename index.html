@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chat</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+        .formuliare {
+            margin-top: 10px;
+        }
+        
+        #chat {
+            border: 3px dotted black;
+            min-height: 100px;
+        }
+    </style>
+</head>
+
+<body class="container-fluid">
+    <div class="row">
+        <div class="col-md-7 col-md-offset-1 col-sm-7 col-sm-offset-1 col-xs-7 col-xs-offset-1 col-xl-7 col-xl-offset-1" id="chat">
+
+        </div>
+        <div class="col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-1 col-xs-3 col-xs-offset-1 col-xl-3 col-xl-offset-1 formuliare">
+            <form action="" method="GET">
+                <textarea name="text"></textarea>
+                <button id="request">Send</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.querySelector('#request').addEventListener('click', function(e) {
+            e.preventDefault();
+            let text = document.querySelector('textarea').value;
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', 'chat.php?text=' + text, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        let p = document.createElement('p');
+                        document.querySelector('#chat').appendChild(p);
+                        p.textContent = xhr.response;
+                    } else {
+                        console.error('unexpected status code:', this.status);
+                    }
+                }
+            };
+            xhr.send(null);
+        });
+    </script>
+</body>
+
+</html>
