@@ -1,66 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Chat</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <style>
-            .formuliare {
-                margin-top: 10px;
-            }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chat</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+        .formuliare {
+            margin-top: 10px;
+        }
+        
+        #chat {
+            border: 3px dotted black;
+            min-height: 100px;
+            background-color: lightgray;
+            font-size: 1.4em;
+            color: red;
+            overflow: scroll;
+        }
+        
+        .container {
+            margin-top: 10px;
+        }
+    </style>
+</head>
 
-            #chat {
-                border: 3px dotted black;
-                min-height: 100px;
-                background-color : lightgray;  
-                font-size: 1.4em;
-                color: red;
-                overflow:scroll;
-            }
-            .container{
-                margin-top : 10px;
-            }
-        </style>
-    </head>
-
-    <body class="container">
-
+<body class="container">
+    <?php
+session_start();
+?>
         <div class="row justify-content-md-center">
             <div class="row col-md-7 col-md-offset-1 col-sm-7 col-sm-offset-1 col-xs-7 col-xs-offset-1 col-xl-7 col-xl-offset-1">
                 <h1 class="text-center">Mon chat de Cougars chaudes</h1>
-                <div  id="chat">
+                <div id="chat">
 
                 </div>
             </div>
-                <form class="form-group row col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-1 col-xs-3 col-xs-offset-1 col-xl-3 col-xl-offset-1 formuliare" action="" method="POST">
-                    <textarea class="form-control" rows="10" cols="25" name="text"></textarea>
-                    <input type="button" id="request" class="btn btn-primary" value ="Send" />
-                </form>
-            </div>
+            <form class="form-group row col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-1 col-xs-3 col-xs-offset-1 col-xl-3 col-xl-offset-1 formuliare" action="" method="POST">
+                <!--<label for="user">Pseudo</label><input type="text" id="user" />-->
+                <textarea class="form-control" rows="10" cols="25" name="text"></textarea>
+                <input type="button" id="request" class="btn btn-primary" value="Send" />
+            </form>
+        </div>
         <script>
-            
-            document.querySelector('#request').addEventListener('click', function (e) {
+            let messages = [];
+
+            function display() {
+                let div = document.querySelector('#chat');
+                div.innerHTML = "";
+                for (let m of messages) {
+                    let p = document.createElement('p');
+                    p.classList.add("col-md-12");
+                    p.textContent = m;
+                    div.appendChild(p);
+                }
+            }
+            document.querySelector('#request').addEventListener('click', function(e) {
                 e.preventDefault();
                 let text = document.querySelector('textarea').value;
                 let xhr = new XMLHttpRequest();
                 xhr.open('POST', 'chat.php', true);
-                xhr.onreadystatechange = function () {
+                xhr.onreadystatechange = function() {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {
-                            let p = document.createElement('p');
-                            document.querySelector('#chat').appendChild(p);
-                            p.textContent = xhr.responseText;
+                            messages.push(text);
+                            console.log(xhr.response);
+                            display();
                         } else {
                             console.error('unexpected status code:', this.status);
                         }
                     }
                 };
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.send('text='+text);
-            });    
+                xhr.send('text=' + text);
+            });
             /*document.querySelector('#request').addEventListener('click', function (e) {
                 e.preventDefault();
                 let text = document.querySelector('textarea').value;
@@ -78,10 +93,9 @@
                     }
                 };
                 xhr.send(null);*/
-    let messages = [];
-    
-    //messages.push($tabl);
+
+            //messages.push($tabl);
         </script>
-    </body>
+</body>
 
 </html>

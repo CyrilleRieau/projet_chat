@@ -3,14 +3,12 @@
 class Post {
     protected $contenu;
     protected $date;
-    protected $auteur;
     protected $id;
 
-    function __construct(string $contenu, $date, string $auteur, int $id = NULL) {
+    function __construct(string $contenu, $date, int $id = NULL) {
         $this->contenu = $contenu;
         $this->date = $date;
-        $this->auteur = $auteur;
-        $this->id = $id;
+            $this->id = $id;
     }
 
     function getContenu() {
@@ -21,9 +19,6 @@ class Post {
         return $this->date;
     }
 
-    function getAuteur() {
-        return $this->auteur;
-    }
 
     function getId() {
         return $this->id;
@@ -35,10 +30,6 @@ class Post {
 
     function setDate($date) {
         $this->date = $date;
-    }
-
-    function setAuteur($auteur) {
-        $this->auteur = $auteur;
     }
 
     function setId($id) {
