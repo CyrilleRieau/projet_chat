@@ -22,11 +22,9 @@ echo($_POST['text']);
 /* if(isset($_GET['text'])){
   echo($_GET['text']);
   } */
-$date = new DateTime();
-$date->format('Y-m-d H:i:s');
+$date = date("Y-m-d H:i:s");
 $post = new Post($_POST['text'], $date);
-$db->postCreate($post);
-echo $post;
+$db->createPost($post);
 //$posts = new Post($_POST['text'], $date, 'Bezu');
 //$serpost = json_encode($post);
 //array_push($obj, $posts);

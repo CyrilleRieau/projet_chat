@@ -1,6 +1,6 @@
 <?php
 
-class Post {
+class Post implements JsonSerializable{
     protected $contenu;
     protected $date;
     protected $id;
@@ -36,5 +36,11 @@ class Post {
         $this->id = $id;
     }
 
-
-    }    
+    public function jsonSerialize() {
+        return [
+            'contenu' => $this->getContenu(),
+            'date' => $this->getDate(),
+            'id' => $this->getId()
+        ];
+    }
+}    
