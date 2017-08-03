@@ -19,7 +19,7 @@
             background-color: ivory;
             font-size: 1.2em;
             color: lightcoral;
-            overflow: scroll;
+            overflow-y: scroll;
         }
         
         .container {
@@ -56,6 +56,7 @@ session_start();
                     p.textContent = m.date + ' : ' + m.contenu;
                     div.appendChild(p);
                 }
+                div.scrollTop = div.scrollHeight;
             }
 
             /*function display(post) {
@@ -78,7 +79,8 @@ session_start();
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {
                             messages.push(text);
-                            display();
+                            //display();
+                            document.querySelector('textarea').value = "";
                         } else {
                             console.error('unexpected status code:', this.status);
                         }
