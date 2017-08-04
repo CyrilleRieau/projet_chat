@@ -9,7 +9,7 @@ class Database {
     private $pdo;
     
     function __construct() {
-        $this->pdo = new PDO('mysql:host=localhost;dbname=posts_db', 'cyrille', 'mdp');
+        $this->pdo = new PDO('mysql:host=localhost;dbname=cyrille_posts_db', 'cyrille', 'cyrille');
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     
